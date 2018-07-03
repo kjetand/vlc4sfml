@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.8)
+
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_COLOR_MAKEFILE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
+
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(SEND_ERROR "In-source builds are not allowed.")
+endif ()
+
+add_subdirectory(src)
+add_subdirectory(examples)

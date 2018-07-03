@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export CC=/bin/clang
+export CXX=/bin/clang++
+
+if [ ! -d "build" ]; then
+  mkdir build
+fi
+
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
