@@ -11,11 +11,8 @@ namespace sf {
 
 Video::Video() noexcept
 {
-  const char* vlc_args[] = { "--no-xlib", "--no-video-title-show" };
-  constexpr auto num_args{ sizeof(vlc_args) / sizeof(*vlc_args) };
-
   m_vlc_instance = CustomUniquePtr<libvlc_instance_t>(
-    libvlc_new(num_args, vlc_args), [](auto* ptr) { libvlc_release(ptr); });
+    libvlc_new(0, nullptr), [](auto* ptr) { libvlc_release(ptr); });
 
   m_media_player = CustomUniquePtr<libvlc_media_player_t>(
     libvlc_media_player_new(m_vlc_instance.get()),
@@ -47,6 +44,7 @@ Video::load(const std::string& video_file) noexcept
 
   // Allocate SFML texture
   m_video_texture = sf::Texture();
+  m_video_texture.setSmooth(true);
   m_video_texture.create(width, height);
   m_video_sprite = sf::Sprite();
   m_video_sprite.setTexture(m_video_texture);
@@ -57,26 +55,34 @@ Video::load(const std::string& video_file) noexcept
   libvlc_video_set_format(
     m_media_player.get(), "RGBA", width, height, width * 4);
 
-  // Set current size
   m_size = { width, height };
 }
 
 void
-Video::play(const bool toggle) const noexcept
+Video::play(const bool toggle) noexcept
 {
+  if (toggle && libvlc_media_player_is_playing(m_media_player.get())) {
+    pause();
+    return;
+  }
   libvlc_media_player_play(m_media_player.get());
 }
 
 void
-Video::stop() const noexcept
+Video::stop() noexcept
 {
   libvlc_media_player_stop(m_media_player.get());
 }
 
 void
-Video::pause() const noexcept
+Video::pause(const bool toggle) noexcept
 {
-  if (libvlc_media_player_can_pause(m_media_player.get()) != 0) {
+  if (libvlc_media_player_can_pause(m_media_player.get()) == 0) {
+    return;
+  }
+  if (toggle) {
+    libvlc_media_player_pause(m_media_player.get());
+  } else {
     libvlc_media_player_set_pause(m_media_player.get(), 1);
   }
 }
@@ -143,8 +149,11 @@ Video::setVolume(const int volume) const noexcept
 void
 Video::mute(const bool toggle) const noexcept
 {
-  // TODO: Toggle
-  libvlc_audio_toggle_mute(m_media_player.get());
+  if (toggle) {
+    libvlc_audio_toggle_mute(m_media_player.get());
+  } else {
+    libvlc_audio_set_mute(m_media_player.get(), 1);
+  }
 }
 
 void

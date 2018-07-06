@@ -8,7 +8,8 @@
 void
 showVideo(sf::Video& video)
 {
-  sf::RenderWindow window(sf::VideoMode(1000, 600), "vlc4sfml");
+  sf::RenderWindow window(
+    sf::VideoMode(800, 500), "vlc4sfml", sf::Style::Close);
 
   while (window.isOpen()) {
     sf::Event event;
@@ -20,9 +21,10 @@ showVideo(sf::Video& video)
     }
     window.clear();
 
-    video.render(window, { 0, 0 }, { 500, 350 });
-    video.render(window, { 100, 400 }, { 200, 150 });
-    video.render(window, { 400, 200 }, { 300, 200 });
+    video.render(window, { 0, 0 }, { 400, 250 });
+    video.render(window, { 400, 0 }, { 400, 250 });
+    video.render(window, { 0, 250 }, { 400, 250 });
+    video.render(window, { 400, 250 }, { 400, 250 });
 
     window.display();
 

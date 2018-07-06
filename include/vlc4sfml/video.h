@@ -33,6 +33,8 @@ class Video
   Size m_size{ 0, 0 };
   std::vector<unsigned char> m_frame;
 
+  bool m_is_playing{ false };
+
 public:
   explicit Video() noexcept;
 
@@ -42,11 +44,11 @@ public:
 
   void load(const std::string& video_file) noexcept;
 
-  void play(const bool toggle = false) const noexcept;
+  void play(const bool toggle = true) noexcept;
 
-  void stop() const noexcept;
+  void stop() noexcept;
 
-  void pause() const noexcept;
+  void pause(const bool toggle = true) noexcept;
 
   int getWidth() const noexcept;
 
@@ -64,7 +66,7 @@ public:
 
   void setVolume(const int volume) const noexcept;
 
-  void mute(const bool toggle = false) const noexcept;
+  void mute(const bool toggle = true) const noexcept;
 
   void render(RenderTarget& render_target) noexcept;
 
