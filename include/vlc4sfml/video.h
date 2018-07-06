@@ -6,6 +6,8 @@
 #include <tuple>
 
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 
 struct libvlc_instance_t;
@@ -25,7 +27,11 @@ class Video
   CustomUniquePtr<libvlc_media_player_t> m_media_player{ nullptr };
   CustomUniquePtr<libvlc_media_t> m_current_media{ nullptr };
 
+  sf::Texture m_video_texture;
+  sf::Sprite m_video_sprite;
+
   Size m_size{ 0, 0 };
+  std::vector<unsigned char> m_frame;
 
 public:
   explicit Video() noexcept;
@@ -60,15 +66,16 @@ public:
 
   void mute(const bool toggle = false) const noexcept;
 
-  void render(RenderTarget& render_target) const noexcept;
+  void render(RenderTarget& render_target) noexcept;
 
-  void render(RenderTarget& render_target, Vector2f& position) const noexcept;
+  void render(RenderTarget& render_target, const Vector2f& position) noexcept;
 
-  void render(RenderTarget& render_target, Vector2f& position, Size& size) const
-    noexcept;
+  void render(RenderTarget& render_target,
+              const Vector2f& position,
+              const Size& size) noexcept;
 
 private:
-  void calculateResolution() noexcept;
+  Size getResolution() const noexcept;
 
   static void* lock(void* data, void** pixels);
 

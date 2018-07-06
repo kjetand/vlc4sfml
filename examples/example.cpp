@@ -6,7 +6,7 @@
 #include <SFML/Window/Event.hpp>
 
 void
-showVideo(const sf::Video& video)
+showVideo(sf::Video& video)
 {
   sf::RenderWindow window(sf::VideoMode(1000, 600), "vlc4sfml");
 
@@ -16,13 +16,14 @@ showVideo(const sf::Video& video)
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
-      } else if (event.type == sf::Event::Resized) {
-        const auto size{ window.getSize() };
-        const sf::View view(sf::FloatRect(
-          0.f, 0.f, static_cast<float>(size.x), static_cast<float>(size.y)));
-        window.setView(view);
       }
     }
+    window.clear();
+
+    video.render(window, { 0, 0 }, { 500, 350 });
+    video.render(window, { 100, 400 }, { 200, 150 });
+    video.render(window, { 400, 200 }, { 300, 200 });
+
     window.display();
 
     sf::sleep(sf::milliseconds(10));
@@ -37,6 +38,8 @@ main(int argc, char** argv)
     return 1;
   }
   sf::Video video{ std::string(argv[1]) };
+  video.play();
+
   showVideo(video);
 
   return 0;
