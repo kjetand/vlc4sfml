@@ -104,6 +104,11 @@ public:
 private:
   Size getResolution() const noexcept;
 
+  struct Context
+  {
+    unsigned char* frame{ nullptr };
+  };
+
   static void* lock(void* data, void** pixels);
 
   static void unlock(void* data, void* id, void* const* pixels);

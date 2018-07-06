@@ -1,13 +1,9 @@
 #include "vlc4sfml/video.h"
 
 #include <gsl/span>
+#include <variant>
 
 #include <vlc/vlc.h>
-
-struct Context
-{
-  unsigned char* frame{ nullptr };
-};
 
 namespace sf {
 
@@ -39,7 +35,7 @@ Video::load(const std::string& video_file) noexcept
   }
   libvlc_media_player_set_media(m_media_player.get(), m_current_media.get());
 
-  const auto [width, height] = getResolution();
+  const auto [width, height]{ getResolution() }; // NOLINT
 
   // Allocate RGBA buffer for video frames
   m_frame.resize(width * height * 4);
@@ -219,10 +215,12 @@ Video::getResolution() const noexcept
     gsl::span<libvlc_media_track_t*> info_span{ info, info_count };
 
     for (const auto* track : info_span) {
-      if (libvlc_track_video == track->i_type && track->video->i_width &&
-          track->video->i_height) {
-        width = track->video->i_width;
-        height = track->video->i_height;
+      const auto* video_info{ track->video }; // NOLINT
+
+      if (libvlc_track_video == track->i_type && video_info->i_width &&
+          video_info->i_height) {
+        width = video_info->i_width;
+        height = video_info->i_height;
         break;
       }
     }
