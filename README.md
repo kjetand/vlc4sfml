@@ -1,10 +1,8 @@
 # vlc4sfml
-Video support for SFML using LibVLC as backend.
-
 Video rendering support for SFML. The framework supports basic video operations: play, pause, stop, time control and sound control.
 
 ## Example
-Rendering video into an SFML window is simple:
+Rendering video into a SFML window:
 
 ```cpp
 sf::RenderWindow window(...);
