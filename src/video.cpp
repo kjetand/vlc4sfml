@@ -1,16 +1,13 @@
 #include "vlc4sfml/video.h"
 
-#include <span>
+#include <gsl/span>
 
 #include <vlc/vlc.h>
-
-namespace {
 
 struct Context
 {
   unsigned char* frame{ nullptr };
 };
-} // namespace
 
 namespace sf {
 
@@ -219,13 +216,13 @@ Video::getResolution() const noexcept
     const auto info_count =
       libvlc_media_tracks_get(m_current_media.get(), &info);
 
-    for (unsigned int track_index = 0; track_index < info_count;
-         ++track_index) {
-      if (libvlc_track_video == info[track_index]->i_type &&
-          info[track_index]->video->i_width &&
-          info[track_index]->video->i_height) {
-        width = info[track_index]->video->i_width;
-        height = info[track_index]->video->i_height;
+    gsl::span<libvlc_media_track_t*> info_span{ info, info_count };
+
+    for (const auto* track : info_span) {
+      if (libvlc_track_video == track->i_type && track->video->i_width &&
+          track->video->i_height) {
+        width = track->video->i_width;
+        height = track->video->i_height;
         break;
       }
     }
