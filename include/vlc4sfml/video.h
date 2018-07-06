@@ -36,42 +36,67 @@ class Video
   bool m_is_playing{ false };
 
 public:
+  //! Initialize video internals.
   explicit Video() noexcept;
 
+  //! Initialize video internals and load video file.
   explicit Video(const std::string& video_file) noexcept;
 
+  //! Default destruction.
   ~Video() = default;
 
+  //! Assign video file and allocate internal buffers for video rendering.
   void load(const std::string& video_file) noexcept;
 
+  //! Play loaded video file. Supports toggling between play and pause. Toggle
+  //! is by default enabled.
   void play(const bool toggle = true) noexcept;
 
+  //! Stop video if playing.
   void stop() noexcept;
 
-  void pause(const bool toggle = true) noexcept;
+  //! Pause video. Supports toggling between pause and play. Toggle is by
+  //! default disabled.
+  void pause(const bool toggle = false) noexcept;
 
+  //! Get number of horizontal pixels.
   int getWidth() const noexcept;
 
+  //! Get number of verical pixels.
   int getHeight() const noexcept;
 
+  //! Get video resolution.
   Size getSize() const noexcept;
 
+  //! Get current time in micro seconds.
   int64_t getTime() const noexcept;
 
+  //! Seek and set video to given time.
   void seekTime(const int64_t micro_seconds) const noexcept;
 
+  //! Skip a given number of micro seconds from current time. Negative number
+  //! will skip backwards.
   void skipTime(const int64_t micro_seconds) const noexcept;
 
+  //! Returns volume as percent [0, 100].
   int getVolume() const noexcept;
 
+  //! Sets volume where volume is represented as percent [0, 100].
   void setVolume(const int volume) const noexcept;
 
+  //! Mutes the sound. Supports toggling which is enabled by default.
   void mute(const bool toggle = true) const noexcept;
 
+  //! Renders current video frame to a render target with original resolution at
+  //! position (0, 0).
   void render(RenderTarget& render_target) noexcept;
 
+  //! Renders current video frame to a render target with original resolution at
+  //! a given position.
   void render(RenderTarget& render_target, const Vector2f& position) noexcept;
 
+  //! Renders current video frame to a render target with a given position and
+  //! size in pixels.
   void render(RenderTarget& render_target,
               const Vector2f& position,
               const Size& size) noexcept;

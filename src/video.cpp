@@ -2,10 +2,13 @@
 
 #include <vlc/vlc.h>
 
+namespace {
+
 struct Context
 {
   unsigned char* frame{ nullptr };
 };
+}
 
 namespace sf {
 
