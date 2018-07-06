@@ -1,5 +1,7 @@
 #include "vlc4sfml/video.h"
 
+#include <span>
+
 #include <vlc/vlc.h>
 
 namespace {
@@ -8,7 +10,7 @@ struct Context
 {
   unsigned char* frame{ nullptr };
 };
-}
+} // namespace
 
 namespace sf {
 
@@ -235,16 +237,16 @@ Video::getResolution() const noexcept
 void*
 Video::lock(void* data, void** pixels)
 {
-  struct Context* context = static_cast<struct Context*>(data);
+  auto* context = static_cast<struct Context*>(data);
   *pixels = context;
   return nullptr;
 }
 
 void
-Video::unlock(void* data, void* id, void* const* pixels)
+Video::unlock(void*, void*, void* const*)
 {}
 
 void
-Video::display(void* data, void* id)
+Video::display(void*, void*)
 {}
-}
+} // namespace sf
