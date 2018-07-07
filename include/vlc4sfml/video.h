@@ -18,6 +18,22 @@ namespace sf {
 
 using Size = std::tuple<int, int>;
 
+//! \brief A video class for SFML that renders video to a SFML render target.
+//! Supports basic video operations like play, pause, stop, time control and
+//! sound control.
+//
+//! Example:
+//! \code{.cpp}
+//! sf::RenderWindow window(...);
+//! sf::Video video("/path/to/video.mp4");
+//! video.play();
+//!
+//! while (window.isOpen()) {
+//!   window.clear();
+//!   video.render(window);
+//!   window.display();
+//! }
+//! \endcode
 class Video
 {
   template<typename T>
@@ -42,8 +58,8 @@ public:
   //! Initialize video internals and load video file.
   explicit Video(const std::string& video_file) noexcept;
 
-  //! Default destruction.
-  ~Video() = default;
+  //! Destructor.
+  ~Video();
 
   //! Assign video file and allocate internal buffers for video rendering.
   void load(const std::string& video_file) noexcept;

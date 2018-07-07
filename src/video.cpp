@@ -1,7 +1,6 @@
 #include "vlc4sfml/video.h"
 
 #include <gsl/span>
-#include <variant>
 
 #include <vlc/vlc.h>
 
@@ -21,6 +20,11 @@ Video::Video(const std::string& video_file) noexcept
   : Video()
 {
   load(video_file);
+}
+
+Video::~Video()
+{
+  stop();
 }
 
 void
