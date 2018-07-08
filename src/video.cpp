@@ -159,21 +159,21 @@ Video::mute(const bool toggle) const noexcept
 }
 
 void
-Video::render(RenderTarget& render_target) noexcept
+Video::renderTo(RenderTarget& render_target) noexcept
 {
-  render(render_target, { 0, 0 }, m_size);
+  renderTo(render_target, { 0, 0 }, m_size);
 }
 
 void
-Video::render(RenderTarget& render_target, const Vector2f& position) noexcept
+Video::renderTo(RenderTarget& render_target, const Vector2f& position) noexcept
 {
-  render(render_target, position, m_size);
+  renderTo(render_target, position, m_size);
 }
 
 void
-Video::render(RenderTarget& render_target,
-              const Vector2f& position,
-              const Size& size) noexcept
+Video::renderTo(RenderTarget& render_target,
+                const Vector2f& position,
+                const Size& size) noexcept
 {
   m_video_texture.update(m_frame.data());
   m_video_sprite.setPosition(position);

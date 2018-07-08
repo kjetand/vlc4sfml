@@ -30,7 +30,7 @@ using Size = std::tuple<int, int>;
 //!
 //! while (window.isOpen()) {
 //!   window.clear();
-//!   video.render(window);
+//!   video.renderTo(window);
 //!   window.display();
 //! }
 //! \endcode
@@ -105,17 +105,17 @@ public:
 
   //! Renders current video frame to a render target with original resolution at
   //! position (0, 0).
-  void render(RenderTarget& render_target) noexcept;
+  void renderTo(RenderTarget& render_target) noexcept;
 
   //! Renders current video frame to a render target with original resolution at
   //! a given position.
-  void render(RenderTarget& render_target, const Vector2f& position) noexcept;
+  void renderTo(RenderTarget& render_target, const Vector2f& position) noexcept;
 
   //! Renders current video frame to a render target with a given position and
   //! size in pixels.
-  void render(RenderTarget& render_target,
-              const Vector2f& position,
-              const Size& size) noexcept;
+  void renderTo(RenderTarget& render_target,
+                const Vector2f& position,
+                const Size& size) noexcept;
 
 private:
   Size getResolution() const noexcept;

@@ -21,10 +21,10 @@ showVideo(sf::Video& video)
     }
     window.clear();
 
-    video.render(window, { 0, 0 }, { 400, 250 });
-    video.render(window, { 400, 0 }, { 400, 250 });
-    video.render(window, { 0, 250 }, { 400, 250 });
-    video.render(window, { 400, 250 }, { 400, 250 });
+    video.renderTo(window, { 0, 0 }, { 400, 250 });
+    video.renderTo(window, { 400, 0 }, { 400, 250 });
+    video.renderTo(window, { 0, 250 }, { 400, 250 });
+    video.renderTo(window, { 400, 250 }, { 400, 250 });
 
     window.display();
 
